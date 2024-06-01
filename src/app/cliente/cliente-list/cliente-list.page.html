@@ -1,0 +1,73 @@
+<ion-header [translucent]="true">
+  <ion-toolbar *ngIf="!isSearch">
+    <ion-title>Clientes</ion-title>
+ 
+    <ion-buttons slot="primary">
+      <ion-button (click)="clickSearch()">
+        <ion-icon slot="end" name="search"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+ 
+  </ion-toolbar>
+ 
+  <ion-toolbar *ngIf="isSearch">
+    <ion-searchbar show-cancel-button="always" show-clear-button="always" (ionClear)="clearSearch()" (ionChange)="buscarSearch($event)"></ion-searchbar>
+  </ion-toolbar> 
+ </ion-header>
+ 
+<ion-content>
+  <ion-grid>
+    <ion-row class="header-color">
+
+      <ion-col><strong>Documento</strong></ion-col>
+      <ion-col><strong>Nombre  </strong></ion-col>
+      <ion-col><strong>Apellido  </strong></ion-col>
+      <ion-col><strong>Monto Asegurado  </strong></ion-col>
+      <ion-col><strong>Fecha de Nacimiento</strong></ion-col>
+      
+    
+      
+    
+
+    </ion-row>
+
+    <ion-row *ngFor="let cliente of listaClientes">
+
+      <ion-item-sliding>
+ 
+
+        <ion-item  [routerLink]="['/cliente-edit/'+cliente.id]">
+          <ion-col>{{ cliente.documento }}</ion-col>
+          <ion-col>{{ cliente.nombre }}</ion-col>
+          <ion-col>{{ cliente.apellido }}</ion-col>
+          <ion-col>{{ cliente.salario }}</ion-col>
+          <ion-col>{{ formatearFecha(cliente.nacimiento) }}</ion-col>
+          <ion-col>
+      
+          </ion-col>
+        </ion-item>
+
+        <ion-item-options side="end">
+          <ion-item-option color="success" [routerLink]="['/cliente-edit/'+cliente.id]">
+            <ion-icon slot="start" name="create"></ion-icon>
+            Editar
+          </ion-item-option>
+          <ion-item-option color="danger" (click)="eliminarCliente(cliente.id)">
+            <ion-icon slot="start" name="trash"></ion-icon>
+            Eliminar
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+
+    </ion-row>
+  </ion-grid>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="nuevo()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+ 
+  </ion-fab>
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
